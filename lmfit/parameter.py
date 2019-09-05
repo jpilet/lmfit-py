@@ -804,11 +804,14 @@ class Parameter(object):
                     self.value = self._expr_eval(self._expr_ast)
                     check_ast_errors(self._expr_eval)
 
-        if self._val is not None:
-            if self._val > self.max:
-                self._val = self.max
-            elif self._val < self.min:
-                self._val = self.min
+        # if self._val is a sympy symbol, operator > or < will not work.
+        # This is a temporary hack to validate a proof of concept.
+        #
+        #if self._val is not None:
+        #    if self._val > self.max:
+        #        self._val = self.max
+        #    elif self._val < self.min:
+        #        self._val = self.min
         if self._expr_eval is not None:
             self._expr_eval.symtable[self.name] = self._val
         return self._val
